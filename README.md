@@ -1,8 +1,8 @@
 # Document Summarizer
 
-A Python-based document summarization application that will extract the most important information from **PDF**, **Word (.docx)**, and **TXT** files using **Natural Language Processing (NLP)** and **Machine Learning** techniques.
+A Python-based document summarization dashboard that will extract the most important information from **PDF**, **Word (.docx)**, and **TXT** files using **Natural Language Processing (NLP)** and **Machine Learning** techniques.
 
-The application will feature an interactive **Streamlit** interface, allowing users to upload documents, generate summaries, view document statistics, and download the generated summary.
+Using a **Streamlit** interface, allowing users to upload documents, generate summaries, view document statistics, and download the generated summary.
 
 > **Status:**  Work in progress.
 
