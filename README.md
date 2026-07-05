@@ -1,44 +1,46 @@
-#  Document Summarizer
+# Document Summarizer
 
-A Python-based document summarization application that extracts the most important information from **PDF**, **Word (.docx)**, and **TXT** files using **Natural Language Processing (NLP)** and **Machine Learning** techniques.
+A Python-based document summarization application that will extract the most important information from **PDF**, **Word (.docx)**, and **TXT** files using **Natural Language Processing (NLP)** and **Machine Learning** techniques.
 
-The application features an interactive **Streamlit** interface, allowing users to upload documents, generate summaries, view document statistics, and download the generated summary.
+The application will feature an interactive **Streamlit** interface, allowing users to upload documents, generate summaries, view document statistics, and download the generated summary.
 
----
-
-##  Features
-
--  Supports multiple document formats
-  - PDF
-  - Word (.docx)
-  - TXT
--  Automatic text cleaning and preprocessing
--  NLP pipeline
-  - Tokenization
-  - Stop-word removal
-  - Stemming/Lemmatization
--  Word Embeddings for sentence representation
--  K-Means clustering to identify important sentences
--  Extractive text summarization
--  Interactive Streamlit web interface
--  Download generated summaries
--  Document statistics
+> **Status:**  Work in progress.
 
 ---
 
-#  How It Works
+## Planned Features
 
-The summarization process follows several stages.
+- [ ] Support for multiple document formats
+  - [ ] PDF
+  - [ ] Word (.docx)
+  - [ ] TXT
+- [ ] Automatic text cleaning and preprocessing
+- [ ] NLP pipeline
+  - [ ] Tokenization
+  - [ ] Stop-word removal
+  - [ ] Stemming/Lemmatization
+- [ ] Word embeddings for sentence representation
+- [ ] K-Means clustering to identify important sentences
+- [ ] Extractive text summarization
+- [ ] Interactive Streamlit web interface
+- [ ] Downloadable summaries
+- [ ] Document statistics
 
-## 1. Document Reading
+---
 
-The application accepts three file formats:
+## How It Will Work
+
+The summarization pipeline will follow several stages.
+
+### 1. Document Reading
+
+The application will accept three file formats:
 
 - PDF
 - DOCX
 - TXT
 
-Different libraries are used depending on the document type.
+Different libraries will be used depending on the document type.
 
 | Format | Libraries |
 |---------|-----------|
@@ -46,11 +48,11 @@ Different libraries are used depending on the document type.
 | DOCX | python-docx |
 | TXT | Built-in Python functions |
 
-After reading the file, the content is converted into a single plain-text string.
+After reading a file, its content will be converted into a single plain-text string.
 
 ---
 
-## 2. Text Preprocessing
+### 2. Text Preprocessing
 
 Raw documents often contain unwanted elements such as:
 
@@ -61,142 +63,79 @@ Raw documents often contain unwanted elements such as:
 - References
 - Special characters
 
-The preprocessing stage cleans the text to improve summarization quality.
+The preprocessing stage will clean the text to improve summarization quality.
 
-### Example
+**Example**
 
-**Before**
-
+Before:
 ```
 Artificial Intelligence
-
       is transforming
-
 healthcare.
 ```
 
-**After**
-
+After:
 ```
 Artificial Intelligence is transforming healthcare.
 ```
 
 ---
 
-## 3. Natural Language Processing (NLP)
+### 3. Natural Language Processing (NLP)
 
-The cleaned text is processed using NLP techniques.
-
-The pipeline includes:
+The cleaned text will be processed using NLP techniques. The pipeline will include:
 
 - Sentence tokenization
 - Word tokenization
 - Stop-word removal
 - Punctuation removal
-- Stemming or Lemmatization
+- Stemming or lemmatization
 
-### Example
+**Example**
 
-Original sentence
-
+Original sentence:
 ```
 The cat is sitting on the table.
 ```
 
-Processed
-
+Processed:
 ```
 cat sitting table
 ```
 
-Words sharing the same meaning are normalized.
-
-Example
-
-```
-running
-runs
-ran
-```
-
-↓
-
-```
-run
-```
+Words sharing the same meaning will be normalized, e.g. `running`, `runs`, `ran` → `run`.
 
 ---
 
-## 4. Text Representation
+### 4. Text Representation
 
-Computers cannot process words directly.
-
-Each word is transformed into a numerical vector using **Word Embeddings**.
-
-Supported embedding techniques include:
+Each word will be transformed into a numerical vector using word embeddings. Supported techniques will include:
 
 - Word2Vec
 - GloVe
 - FastText
 
-Example
-
-```
-dog
-
-↓
-
-[0.41, 0.22, ..., 300 dimensions]
-```
-
-Sentence vectors are then created from these word embeddings.
+Sentence vectors will then be built from these word embeddings.
 
 ---
 
-## 5. Sentence Importance Detection
+### 5. Sentence Importance Detection
 
-Each sentence is represented as a vector.
-
-The vectors are grouped using **K-Means Clustering**.
-
-Each cluster represents a different topic in the document.
-
-The sentence closest to the centroid of each cluster is selected as the representative sentence.
+Each sentence will be represented as a vector. The vectors will be grouped using **K-Means Clustering**, where each cluster represents a different topic in the document. The sentence closest to each cluster's centroid will be selected as the representative sentence.
 
 ---
 
-## 6. Summary Generation
+### 6. Summary Generation
 
-The application performs **Extractive Summarization**.
-
-Instead of generating new text, it selects the most informative sentences directly from the original document.
-
-Example
-
-Original document
-
-```
-Sentence 1
-Sentence 2
-Sentence 3
-Sentence 4
-Sentence 5
-```
-
-Generated summary
-
-```
-Sentence 2
-Sentence 5
-```
+The application will perform **extractive summarization** — selecting the most informative sentences directly from the original document rather than generating new text.
 
 ---
 
-## 7. User Interface
+### 7. User Interface
 
-The application provides a simple interface built with **Streamlit**.
+The application will provide a simple interface built with **Streamlit**.
 
-Workflow:
+Planned workflow:
 
 1. Upload a document
 2. Click **Summarize**
@@ -206,3 +145,26 @@ Workflow:
 
 ---
 
+## Project Structure
+
+```
+document-summarizer/
+├── README.md
+├── requirements.txt
+├── app.py
+├── src/
+│   ├── document_reader.py
+│   ├── preprocessing.py
+│   ├── nlp_pipeline.py
+│   ├── embeddings.py
+│   ├── clustering.py
+│   └── summarizer.py
+└── tests/
+```
+
+## Setup (once dependencies are added)
+
+```bash
+pip install -r requirements.txt
+streamlit run app.py
+```
