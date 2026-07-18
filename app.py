@@ -16,7 +16,7 @@ from pathlib import Path
 
 import streamlit as st
 
-from src.document_reader import read_document
+from src.document_reader import read_document, UnsupportedFileTypeError
 from src.summarizer import summarize_text, get_document_stats
 
 
@@ -38,19 +38,34 @@ num_sentences = st.slider(
 
 if uploaded_file is not None:
     if st.button("Summarize"):
-        with st.spinner("Reading and summarizing document..."):
-            # Save the uploaded file to a temp path so document_reader
-            # (which expects a file path) can read it.
-            suffix = Path(uploaded_file.name).suffix
-            with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp_file:
-                tmp_file.write(uploaded_file.getvalue())
-                tmp_path = tmp_file.name
+        tmp_path = None
+        try:
+            with st.spinner("Reading and summarizing document..."):
+                suffix = Path(uploaded_file.name).suffix
+                with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp_file:
+                    tmp_file.write(uploaded_file.getvalue())
+                    tmp_path = tmp_file.name
 
-            try:
                 raw_text = read_document(tmp_path)
+
+                if not raw_text.strip():
+                    st.warning("This document appears to be empty or unreadable.")
+                    st.stop()
+
                 summary = summarize_text(raw_text, num_sentences=num_sentences)
                 stats = get_document_stats(raw_text, summary)
-            finally:
+
+        except UnsupportedFileTypeError:
+            st.error("This file type isn't supported. Please upload a PDF, DOCX, or TXT file.")
+            st.stop()
+        except FileNotFoundError:
+            st.error("The uploaded file could not be read. Please try uploading it again.")
+            st.stop()
+        except Exception as e:
+            st.error(f"Something went wrong while summarizing this document: {e}")
+            st.stop()
+        finally:
+            if tmp_path:
                 Path(tmp_path).unlink(missing_ok=True)
 
         st.subheader("Summary")
