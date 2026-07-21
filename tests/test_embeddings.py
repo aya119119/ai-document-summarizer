@@ -3,10 +3,6 @@ Tests for src/embeddings.py
 """
 
 import numpy as np
-import sys
-import os
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.embeddings import train_word_vectors, sentence_vector, build_sentence_vectors
 
